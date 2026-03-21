@@ -9,31 +9,17 @@ catch (err) {
 }
 }
 
-export async function createPrompt(formData: FormData): Promise<any> {
+export async function createPrompt(promptData: any): Promise<any> {
 try {
-    const title = formData.get('title') as string
-    const description = formData.get('description') as string
-    const prompt = formData.get('prompt') as string
-    const response = await api.post('/prompts',{
-        "title": title,
-        "description": description,
-        "prompt": prompt
-      })
+    const response = await api.post('/create', promptData);
     return response.data}
 catch (err) {
     console.error("Error creating prompt:", err);
 }}
 
-export async function updatePrompt(id: number, formData: FormData): Promise<any> {
+export async function updatePrompt(id: number, promptupdate: any): Promise<any> {
 try {
-    const title = formData.get('title') as string
-    const description = formData.get('description') as string
-    const prompt = formData.get('prompt') as string
-    const response = await api.put(`/prompts/${id}`, {
-        "title": title,
-        "description": description,
-        "prompt": prompt
-      })
+    const response = await api.patch(`/update/${id}`, promptupdate);
     return response.data}
 catch (err) {
     console.error("Error updating prompt:", err);
@@ -41,7 +27,7 @@ catch (err) {
 
 export async function deletePrompt(id: number): Promise<void> {
 try {
-    await api.delete(`/prompts/${id}`)}
+    await api.delete(`/delete/${id}`)}
 catch (err) {
     console.error("Error deleting prompt:", err);
 }}
