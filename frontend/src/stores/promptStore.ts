@@ -1,9 +1,10 @@
 import { fetchPrompts, createPrompt, deletePrompt, updatePrompt } from '@/api/promptAPI';
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const usePromptStore = defineStore('prompt', () => {
     const prompts = ref<any[]>([])
+    const searchQuery = ref('')
 
   async function loadPrompts() {
     try {
@@ -46,7 +47,7 @@ export const usePromptStore = defineStore('prompt', () => {
       return false
     }
   }
-  async function copyPrompt (text: any) {
+  async function copyPrompt(text: any) {
     try {
       await navigator.clipboard.writeText(text);
       return true; 
@@ -55,5 +56,15 @@ export const usePromptStore = defineStore('prompt', () => {
     }
   };
 
-  return { prompts , loadPrompts , addPrompt , clearprompt , editprompt , copyPrompt}
+  const filteredPrompts = computed(() => {
+    const query = searchQuery.value.toLowerCase().trim()
+    if (!query) return prompts.value
+    else{
+    return prompts.value.filter(p => 
+      p.title.toLowerCase().includes(query) || 
+      p.description.toLowerCase().includes(query)
+    )}
+  })
+
+  return { prompts , loadPrompts , addPrompt , clearprompt , editprompt , copyPrompt , searchQuery, filteredPrompts, }
 })

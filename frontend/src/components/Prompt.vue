@@ -1,11 +1,9 @@
 <script setup lang="ts">
   import { usePromptStore } from '@/stores/promptStore'
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, computed } from 'vue'
   import { useAuthStore } from '@/stores/auth'
 
 
-
-  const auth = useAuthStore()
   const promptStore = usePromptStore()
   const formData = ref({
   title: '',
@@ -21,21 +19,21 @@
     promptStore.loadPrompts()
   })
 
-const copy= async (text: string) => {
-  try{
-  const success = await promptStore.copyPrompt(text)
-  if (success) {
-    isCopied.value = true
-  } }
-  catch (err) {
-    console.error("Failed to copy prompt:", err)
+  const copy= async (text: string) => {
+    try{
+    const success = await promptStore.copyPrompt(text)
+    if (success) {
+      isCopied.value = true
+    } }
+    catch (err) {
+      console.error("Failed to copy prompt:", err)
+    }
+    finally {
+      setTimeout(() => {
+        isCopied.value = false
+      }, 2000)
+    }
   }
-   finally {
-    setTimeout(() => {
-      isCopied.value = false
-    }, 2000)
-   }
-}
   const startEdit = (prompt: any) => {
   isEditing.value = true
   currentEditId.value = prompt.id
@@ -72,8 +70,14 @@ const clear = () => {
 
   <template>
   <div class="p-6 bg-slate-900 min-h-screen text-white">
+    <div class="p-4 bg-slate-900">
+    <input 
+      v-model="promptStore.searchQuery" 
+      placeholder="Search by title or description..." 
+      class="w-full rounded bg-slate-700 p-2 text-white border border-slate-600 focus:border-blue-500 outline-none"
+    />
+    </div>
     <h2 class="text-2xl mb-4">AI Prompt Vault</h2>
-
     <form @submit.prevent="savePrompt" class="mb-8 p-4 bg-slate-800 rounded">
       <input v-model="formData.title" placeholder="Title" class="font-bold text-xl text-blue-300 w-full mb-2 p-2 bg-slate-700 rounded" />
       <input v-model="formData.description" placeholder="Description" class="font-bold text-xl text-blue-300 w-full mb-2 p-2 bg-slate-700 rounded" />
@@ -87,7 +91,7 @@ const clear = () => {
     <hr class="border-slate-700 mb-8" />
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div v-for="p in promptStore.prompts" :key="p.id" class="p-4 bg-blue-900/50 border border-blue-500 rounded-lg">
+      <div v-for="p in promptStore.filteredPrompts" :key="p.id" class="p-4 bg-blue-900/50 border border-blue-500 rounded-lg">
         <h3 class="font-bold text-xl text-blue-300">{{ p.title }}</h3>
         <p class="text-slate-300 text-sm mb-2">{{ p.description }}</p>
         <div class="bg-black/30 p-2 rounded text-xs font-mono text-emerald-400">
