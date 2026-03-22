@@ -26,6 +26,10 @@ async function login(formData: FormData): Promise<boolean> {
     const accessToken = response.data.access_token;
     
     token.value = accessToken;
+      if (typeof chrome !== "undefined" && chrome.storage?.local) {
+        chrome.storage.local.set({ token: accessToken });
+        console.log("Token stored in Chrome storage");
+      }
     localStorage.setItem('token', accessToken);
     isAuthenticated.value = true;
     await fetchUser(); 
@@ -52,6 +56,11 @@ async function login(formData: FormData): Promise<boolean> {
     token.value = null
     user.value = null
     localStorage.removeItem('token')
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      chrome.storage.local.remove('token');
+      console.log("Token removed from Chrome storage");
+    }
+    window.location.href = '/login'
   }
 
   async function checkAuth() {

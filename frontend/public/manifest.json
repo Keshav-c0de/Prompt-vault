@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "AI Prompt Vault",
+    "version": "1.0.0",
+    "description": "One-click access to your favorite AI prompts.",
+    "action": {
+      "default_popup": "index.html"
+    },
+    "permissions": ["storage", "clipboardWrite"],
+    "host_permissions": ["http://127.0.0.1:8000/*"]
+  }

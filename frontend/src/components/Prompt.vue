@@ -5,6 +5,7 @@
 
 
   const promptStore = usePromptStore()
+  const auth = useAuthStore()
   const formData = ref({
   title: '',
   description: '',
@@ -14,6 +15,9 @@
   const currentEditId = ref(0)
   const isAdding = ref(false)
   const isCopied = ref(false)
+  const isInvaild = ref(false)
+  const errorMessage = ref('')
+
 
   onMounted(() => {
     promptStore.loadPrompts()
@@ -58,6 +62,14 @@ const clear = () => {
         clear()
       }}
     else if (isAdding.value) {
+      if (formData.value.title.trim() === '' || formData.value.prompt.trim() === '') {
+        isInvaild.value = true
+        errorMessage.value = "Title and Prompt cannot be empty."
+        setTimeout(() => {
+          isInvaild.value = false
+      }, 2000)
+        return
+      }
     const success = await promptStore.addPrompt(formData.value)
     if (success) {
       clear()
@@ -70,6 +82,11 @@ const clear = () => {
 
   <template>
   <div class="p-6 bg-slate-900 min-h-screen text-white">
+  <div>
+    <button @click="auth.logout()"class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">
+      Logout
+    </button>
+  </div>
     <div class="p-4 bg-slate-900">
     <input 
       v-model="promptStore.searchQuery" 
@@ -82,9 +99,12 @@ const clear = () => {
       <input v-model="formData.title" placeholder="Title" class="font-bold text-xl text-blue-300 w-full mb-2 p-2 bg-slate-700 rounded" />
       <input v-model="formData.description" placeholder="Description" class="font-bold text-xl text-blue-300 w-full mb-2 p-2 bg-slate-700 rounded" />
       <textarea v-model="formData.prompt" placeholder="The Prompt" class=" text-xs font-mono text-emerald-400 w-full mb-2 p-2 bg-slate-700 rounded"></textarea>
-      <button type="submit" @click="isAdding= true" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">{{ isEditing ? "update Prompt" : "save Prompt" }}</button>
+      <spam v-if="isInvaild"  class="text-gray-500 italic text-2xl">
+        {{ errorMessage }}
+      </spam>
+      <button type="submit"   @click="isAdding= true" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">{{ isEditing ? "update Prompt" : "save Prompt" }}</button>
       <button  @click="clear()" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">
-        clear prompt
+       clear prompt
       </button>
     </form>
 

@@ -9,6 +9,8 @@ from contextlib import asynccontextmanager
 from sqlalchemy import select, insert, update, delete
 from .auth import hash_password, verify_password, create_access_token
 from .user import get_current_user
+from fastapi.middleware.cors import CORSMiddleware
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,6 +18,15 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan= lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
