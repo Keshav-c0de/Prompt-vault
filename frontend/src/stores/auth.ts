@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('token'))
   const isInitialized = ref(false) 
   const isAuthenticated = ref(false)
+  const error = ref<string | null>(null)
   
 
 async function login(formData: FormData): Promise<boolean> {
@@ -83,5 +84,23 @@ async function login(formData: FormData): Promise<boolean> {
     isInitialized.value = true;
   }
 }
-  return { user, token, isAuthenticated, login, fetchUser, logout , isInitialized ,checkAuth}
+
+const handleLogin = async (credentials: { email: string; pass: string }) => {
+    try {
+      const response = await api.post('/login', credentials);
+      const accessToken = response.data.access_token;
+      token.value = accessToken;
+      isAuthenticated.value = true;
+      localStorage.setItem('token', accessToken);
+      if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+        await chrome.storage.local.set({ token: accessToken });
+      }
+      router.push('/dashboard');
+      
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error; 
+    }
+  };
+  return { user, token, isAuthenticated, login, fetchUser, logout , isInitialized ,checkAuth, handleLogin}
 })

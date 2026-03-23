@@ -66,5 +66,19 @@ export const usePromptStore = defineStore('prompt', () => {
     )}
   })
 
-  return { prompts , loadPrompts , addPrompt , clearprompt , editprompt , copyPrompt , searchQuery, filteredPrompts, }
+    const currentPage = ref(1);
+    const itemsPerPage = ref(6); 
+  
+  const paginatedPrompts = computed(() => {
+      const start = (currentPage.value - 1) * itemsPerPage.value;
+      const end = start + itemsPerPage.value;
+      return filteredPrompts.value.slice(start, end);
+    });
+  
+    const totalPages = computed(() => 
+      Math.ceil(filteredPrompts.value.length / itemsPerPage.value)
+    );
+  
+
+  return { prompts , loadPrompts , addPrompt , clearprompt , editprompt , copyPrompt , searchQuery, filteredPrompts, paginatedPrompts, itemsPerPage, currentPage, totalPages}
 })

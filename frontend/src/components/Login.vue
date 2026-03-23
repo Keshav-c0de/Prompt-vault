@@ -22,7 +22,7 @@ const handleLogin = async () => {
         formData.append('password', password.value)
         const success =await auth.login(formData)
         if (success) {
-            router.push('/prompts')
+            router.push('/dashboard')
         }
     }
     catch (err) {
@@ -32,6 +32,7 @@ const handleLogin = async () => {
         isLoading.value = false
     }
 }
+
 
 
 </script>

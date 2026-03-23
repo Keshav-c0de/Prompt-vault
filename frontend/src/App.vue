@@ -1,19 +1,32 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import { useAuthStore } from '@/stores/auth';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import { RouterView } from 'vue-router';
 const auth =useAuthStore()
 onMounted(async () => {
   if (!auth.isInitialized) {
     await auth.checkAuth();
   }
 });
+const email = ref('');
+const password = ref('');
+const errorMessage = ref('');
+
+const submitForm = async () => {
+  errorMessage.value = '';
+  try {
+    await auth.handleLogin({ 
+      email: email.value, 
+      pass: password.value 
+    });
+  } catch (err) {
+    errorMessage.value = "Invalid email or password. Try again!";
+  }
+}
 </script>
 <template>
-  <main class="bg-slate-900 min-h-screen">
-    <div class="text-center">
-  <b-spinner v-if="!auth.isInitialized" variant="primary" label="Text Centered"></b-spinner>
-    <RouterView v-else />
+  <div >
+      <router-view />
   </div>
-  </main>
+
 </template>
