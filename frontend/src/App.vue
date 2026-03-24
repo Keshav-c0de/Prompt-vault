@@ -8,25 +8,33 @@ onMounted(async () => {
     await auth.checkAuth();
   }
 });
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
 
-const submitForm = async () => {
-  errorMessage.value = '';
-  try {
-    await auth.handleLogin({ 
-      email: email.value, 
-      pass: password.value 
-    });
-  } catch (err) {
-    errorMessage.value = "Invalid email or password. Try again!";
-  }
-}
+
+
 </script>
 <template>
   <div >
+      <div v-if ="!auth.isInitialized" class="space-y-10 ">
+          <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background: #020617;">
+          <div class="loader"></div>
+      </div>
+      </div>
       <router-view />
   </div>
-
 </template>
+<style>
+
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

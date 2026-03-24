@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth' 
-import RegisterView from '../components/Register.vue'
 import LoginView from '../components/Login.vue'
 import PopupView from '../components/popup.vue'
 
@@ -11,14 +10,9 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         { 
-            path: '/login', 
+            path: '/welcome', 
             name: 'landingPage', 
             component: LoginView 
-        },
-        { 
-            path: '/register', 
-            name: 'register', 
-            component: RegisterView 
         },
        
         { 
@@ -33,7 +27,7 @@ const router = createRouter({
         },
         {
             path: '/',
-            redirect: '/login'
+            redirect: '/welcome'
         }
 
     ]
@@ -45,9 +39,9 @@ router.beforeEach(async (to) => {
       await auth.checkAuth()
     }
     if (to.path === '/dashboard' && !auth.isAuthenticated) {
-      return '/login'
+      return '/welcome'
     }
-    if ((to.path === '/login' || to.path === '/register') && auth.isAuthenticated) {
+    if (to.path === '/welcome' && auth.isAuthenticated) {
       return '/dashboard'
     }
   })
