@@ -40,24 +40,24 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-slate-900 px-4">
-    <div class="max-w-md w-full bg-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700">
-      <h2 class="text-3xl font-bold text-white text-center mb-8">Create Account</h2>
+      <div >
+      <h2 class="text-3xl font-black text-white text-center mb-2 tracking-tighter">Create Account</h2>
+      <p class="text-slate-500 text-center text-sm mb-8">Signup to get free access.</p>
 
       <form @submit.prevent="handleRegister" class="space-y-6">
         <div>
-          <label class="block text-sm font-medium text-slate-300 mb-1">Username</label>
-          <input v-model="username" type="text" required class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500" />
+          <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Username</label>
+          <input v-model="username" type="text" required class="w-full px-4 py-4 bg-slate-950 border border-slate-800 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-300 mb-1">Email</label>
-          <input v-model="email" type="email" required class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500" />
+          <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Email</label>
+          <input v-model="email" type="email" required class="w-full px-4 py-4 bg-slate-950 border border-slate-800 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-slate-300 mb-1">Password</label>
-          <input v-model="password" type="password" required class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white outline-none focus:ring-2 focus:ring-blue-500" />
+          <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Password</label>
+          <input v-model="password" type="password" required class="w-full px-4 py-4 bg-slate-950 border border-slate-800 rounded-xl text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all" />
         </div>
 
         <div v-if="error" class="text-red-400 text-sm text-center font-medium bg-red-900/20 py-2 rounded border border-red-900/50">
@@ -68,10 +68,6 @@ const handleRegister = async () => {
           {{ isLoading ? 'Creating Account...' : 'Open Your Vault' }}
         </button>
       </form>
-      
-      <p class="mt-6 text-center text-slate-400">
-        Already have a vault? <RouterLink to="/login" class="text-blue-500 hover:underline italic">Login</RouterLink>
-      </p>
-    </div>
-  </div>
+      </div>
+
 </template>

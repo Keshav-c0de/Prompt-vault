@@ -16,16 +16,21 @@
   const isCopied = ref(false)
   const isInvaild = ref(false)
   const errorMessage = ref('')
-  const expand = ref(false)
+  const expand = ref(new Set())
   const adding = ref(false)
 
 
   onMounted(() => {
     promptStore.loadPrompts()
+    auth.fetchUser()
   })
 
-  const change = () => {
-  expand.value = !expand.value
+  const change = (p: number) => {
+    if (expand.value.has(p)) {
+      expand.value.delete(p)
+    } else {
+      expand.value.add(p)
+    }
 }
   const copy= async (text: string) => {
     try{
@@ -113,6 +118,12 @@ const clear = () => {
     </header>
 
     <main class="max-w-7xl mx-auto p-6">
+      <section>
+        <h3 class="block text-2xl font-black uppercase tracking-tight text-slate-500 mb-2">Welcome ,  {{ auth.user?.name }}</h3>
+        <hr class="my-4 h-px border-t-0 bg-slate-400" />
+        <br>
+      </section>
+
       <section v-if="adding" class="mb-12 max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
         <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Create New Prompt</h3>
         <div class="space-y-3">
@@ -132,9 +143,11 @@ const clear = () => {
         </div>
       </section>
       <section v-else>
-        <button @click="toggle" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-lg shadow-blue-900/20 mb-8 ">
-          + Add New Prompt
+        <div class="flow-root">
+        <button @click="toggle" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-lg shadow-blue-900/20 mb-8 float-left ">
+          + Add New
         </button>
+        </div>
       </section>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -150,16 +163,23 @@ const clear = () => {
           </div>
 
           <p class="text-slate-400 text-xs mb-4 line-clamp-2 h-8">{{ p.description }}</p>
+          <div 
+    :class="[
+      'overflow-y-auto custom-scrollbar transition-all duration-500',
+      expand.has(p.id) ? 'max-h-96' : 'max-h-24'
+    ]"
+  >
 
           <div class="relative bg-black/40 rounded-lg p-3 border border-slate-800 group-hover:border-slate-700 transition-colors mb-4">
-            <code v-if="expand" class="text-emerald-500/90 text-[11px] m-2 font-mono line-clamp-none leading-relaxed whitespace-pre-wrap">
+            <code v-if="expand.has(p.id) " class="text-emerald-500/90 text-[11px] m-2 font-mono  leading-relaxed whitespace-pre-wrap">
               {{ p.prompt }}
             </code>
             <code v-else class="text-emerald-500/90 text-[11px] m-2 font-mono line-clamp-4 leading-relaxed whitespace-pre-wrap">
               {{ p.prompt }}
             </code>
-              <button @click= change() class="absolute bottom-1 right-4 text-[10px] text-blue-400 hover:underline">
-                {{ expand === true ? 'Show Less' : 'Show More' }}
+        </div>
+              <button @click= change(p.id) class="absolute bottom-1 right-4 text-[10px] text-blue-400 hover:underline">
+                {{ expand.has(p.id) ? 'Show Less ↑' : 'Show More ↓' }}
               </button>
           </div>
 
@@ -199,3 +219,22 @@ const clear = () => {
 </footer>
   </div>
 </template>
+<style>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1e293b; /* slate-800 */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6; /* blue-500 */
+}
+</style>

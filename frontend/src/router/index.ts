@@ -6,12 +6,13 @@ import PopupView from '../components/popup.vue'
 
 
 
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         { 
             path: '/login', 
-            name: 'landing-page', 
+            name: 'landingPage', 
             component: LoginView 
         },
         { 
@@ -25,15 +26,16 @@ const router = createRouter({
             name: 'prompt-vault', 
             component: () => import('../components/Prompt.vue') 
         },
-        { 
-            path: '/', 
-            redirect: '/login' 
-        },
       
         {
             path: '/popup', 
             component: PopupView
+        },
+        {
+            path: '/',
+            redirect: '/login'
         }
+
     ]
 })
 
