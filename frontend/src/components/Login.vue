@@ -119,7 +119,7 @@ const copySample = (text: string) => {
 
     <section class="bg-black py-20 px-6 border-y border-slate-900">
        <div class="max-w-6xl mx-auto bg-slate-900/50 rounded-3xl border border-slate-800 p-4 shadow-2xl">
-         <img src='@/assets/image.png' alt="Dashboard Preview" class="w-full rounded-2xl opacity-90 grayscale hover:grayscale-0 transition-all duration-700" />
+         <img src='@/assets/screenshot.gif' alt="Dashboard Preview" class="w-full rounded-2xl opacity-90 grayscale hover:grayscale-0 transition-all duration-700" />
        </div>
     </section>
 

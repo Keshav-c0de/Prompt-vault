@@ -3,8 +3,11 @@ from sqlalchemy.orm import mapped_column, relationship, Mapped, DeclarativeBase
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from datetime import datetime
 from typing import Optional
+from dotenv import load_dotenv
+import os
 
-DATABASE_URL = "sqlite+aiosqlite:///./vault.db"
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 class Base(DeclarativeBase):
     pass

@@ -28,6 +28,10 @@ const router = createRouter({
         {
             path: '/',
             redirect: '/welcome'
+        },
+        {
+          path: '/login',
+          redirect: '/welcome'
         }
 
     ]

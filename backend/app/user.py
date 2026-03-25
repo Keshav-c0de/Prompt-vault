@@ -16,11 +16,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], sessio
     )
     try:
         payload = verify_access_token(token)
-        user_id: int = payload.get("sub")
-        if not user_id:
+        
+        if not payload:
             raise credentials_exception
 
-        result = await session.execute(select(User).where(User.id == user_id))
+        user_id: int = payload.get("sub")    
+
+        result = await session.execute(select(User).where(User.id == int(user_id)))
         user = result.scalar_one_or_none()   
         if not user:
             raise HTTPException(status_code=401, detail="User not found")

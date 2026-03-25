@@ -13,7 +13,7 @@
   })
   const isEditing = ref(false)
   const currentEditId = ref(0)
-  const isCopied = ref(false)
+  const isCopied = ref(new Set())
   const isInvaild = ref(false)
   const errorMessage = ref('')
   const expand = ref(new Set())
@@ -32,18 +32,18 @@
       expand.value.add(p)
     }
 }
-  const copy= async (text: string) => {
+  const copy= async (text: string, id:number) => {
     try{
     const success = await promptStore.copyPrompt(text)
     if (success) {
-      isCopied.value = true
+      isCopied.value.add(id)
     } }
     catch (err) {
       console.error("Failed to copy prompt:", err)
     }
     finally {
       setTimeout(() => {
-        isCopied.value = false
+        isCopied.value.delete(id)
       }, 2000)
     }
   }
@@ -117,7 +117,7 @@ const clear = () => {
       </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6">
+    <main class="flex-1  p-6">
       <section>
         <h3 class="block text-2xl font-black uppercase tracking-tight text-slate-500 mb-2">Welcome ,  {{ auth.user?.name }}</h3>
         <hr class="my-4 h-px border-t-0 bg-slate-400" />
@@ -183,20 +183,20 @@ const clear = () => {
               </button>
           </div>
 
-          <button @click="copy(p.prompt)" 
+          <button @click="copy(p.prompt, p.id)" 
                   class="w-full py-2 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white text-xs font-bold tracking-widest uppercase transition-all">
-            {{ isCopied === p.id ? '✨ Copied!' : 'Copy Prompt' }}
+                {{ isCopied.has(p.id) ? '✨ Copied!' : 'Copy Prompt' }}
           </button>
         </div>
       </div>
 
       <div v-if="promptStore.prompts.length === 0" class="flex flex-col items-center justify-center py-20 text-slate-600">
-        <span class="text-6xl mb-4">🧊</span>
-        <p class="text-xl font-medium">Your vault is empty</p>
-        <p class="text-sm">Start by adding a prompt above.</p>
+        <span class="text-6xl mb-4 mt-4">🧊</span>
+        <p class="text-4xl font-medium ">Your vault is empty</p>
+        <p class="text-ml ">Start by adding prompt</p>
       </div>
     </main>
-  <footer class="mt-12 mb-6 flex items-center justify-center gap-4">
+  <footer class="mt-4 mb-6 flex items-center justify-center gap-4">
   <button 
     @click="promptStore.currentPage--" 
     :disabled="promptStore.currentPage === 1"
