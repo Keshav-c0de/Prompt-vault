@@ -4,19 +4,38 @@ const api = axios.create({
   baseURL: 'http://localhost:8000',
 });
 
+interface TokenData {
+  access_token: string;
+}
+
 api.interceptors.request.use(async (config) => {
+  let rawData: any = null;
+
+  if (typeof chrome !== "undefined" && chrome.storage?.local) {
+    const result = await chrome.storage.local.get('token');
+    rawData = result.token; 
+  } else {
+    rawData = localStorage.getItem('token');
+  }
+
   let token: string | null = null;
 
-  if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-    const result = await chrome.storage.local.get('token');
-    token = result.token || null;
-  } else {
-    token = localStorage.getItem('token');
+  
+  if (rawData) {
+    try {
+      
+      const parsedData: TokenData = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+      token = parsedData.access_token || rawData; 
+    } catch (e) {
+     
+      token = rawData;
+    }
   }
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 }, (error) => {
   return Promise.reject(error);

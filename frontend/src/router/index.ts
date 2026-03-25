@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth' 
 import LoginView from '../components/Login.vue'
-import PopupView from '../components/popup.vue'
+
 
 
 
@@ -23,7 +23,7 @@ const router = createRouter({
       
         {
             path: '/popup', 
-            component: PopupView
+            component: () => import('../components/popup.vue') 
         },
         {
             path: '/',

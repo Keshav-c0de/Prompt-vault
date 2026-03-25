@@ -23,7 +23,6 @@ onMounted(async () => {
   </div>
 </template>
 <style>
-
 .loader {
   border: 8px solid #f3f3f3; /* Light grey */
   border-top: 8px solid #3498db; /* Blue */

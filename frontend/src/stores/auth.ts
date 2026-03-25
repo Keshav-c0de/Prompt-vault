@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import api from '@/api/axios' 
+import router from '@/router';
 
 
 interface User {
@@ -65,9 +66,15 @@ async function login(formData: FormData): Promise<boolean> {
   }
 
   async function checkAuth() {
-  const token = localStorage.getItem('token');
+    let tokenValue: any = null;
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      const result = await chrome.storage.local.get('token');
+      tokenValue = result.token; 
+    } else {
+      tokenValue = localStorage.getItem('token');
+    }
   
-  if (!token) {
+  if (!tokenValue) {
     isInitialized.value = true;
     isAuthenticated.value = false;
     return;
@@ -78,7 +85,11 @@ async function login(formData: FormData): Promise<boolean> {
     user.value = response.data;
     isAuthenticated.value = true;
   } catch (error) {
+    console.error("Auth check failed:", error);
     localStorage.removeItem('token');
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+        chrome.storage.local.remove('token');
+    }
     isAuthenticated.value = false;
   } finally {
     isInitialized.value = true;
