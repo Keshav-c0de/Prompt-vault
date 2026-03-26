@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: "https://www.prompt-vault.dev/api",
 });
 
 interface TokenData {
@@ -14,7 +14,13 @@ api.interceptors.request.use(async (config) => {
   if (typeof chrome !== "undefined" && chrome.storage?.local) {
     const result = await chrome.storage.local.get('token');
     rawData = result.token; 
-  } else {
+  }
+  else if (typeof browser !== "undefined" && browser.storage?.local) {
+    const result = await browser.storage.local.get('token');
+    rawData = result.token; 
+  }
+  
+  else {
     rawData = localStorage.getItem('token');
   }
 

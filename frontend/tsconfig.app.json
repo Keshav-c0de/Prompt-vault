@@ -8,6 +8,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client", "chrome"] // 👈 Add "chrome" HERE
+    "types": ["vite/client", "chrome", "web-ext-types"] 
   }
 }

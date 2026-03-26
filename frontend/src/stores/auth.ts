@@ -32,6 +32,10 @@ async function login(formData: FormData): Promise<boolean> {
         chrome.storage.local.set({ token: accessToken });
         console.log("Token stored in Chrome storage");
       }
+      else if (typeof browser !== "undefined" && browser.storage?.local) {
+        browser.storage.local.set({ token: accessToken });
+        console.log("Token stored in Browser storage");
+      }
     localStorage.setItem('token', accessToken);
     isAuthenticated.value = true;
     await fetchUser(); 
@@ -62,6 +66,10 @@ async function login(formData: FormData): Promise<boolean> {
       chrome.storage.local.remove('token');
       console.log("Token removed from Chrome storage");
     }
+    else if (typeof browser !== "undefined" && browser.storage?.local) {
+      browser.storage.local.remove('token');
+      console.log("Token removed from Browser storage");
+    }
     window.location.href = '/login'
   }
 
@@ -70,7 +78,11 @@ async function login(formData: FormData): Promise<boolean> {
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
       const result = await chrome.storage.local.get('token');
       tokenValue = result.token; 
-    } else {
+    }else if (typeof browser !== "undefined" && browser.storage?.local) {
+      const result = await browser.storage.local.get('token');
+      tokenValue = result.token;
+    }
+     else {
       tokenValue = localStorage.getItem('token');
     }
   
@@ -90,6 +102,9 @@ async function login(formData: FormData): Promise<boolean> {
     if (typeof chrome !== "undefined" && chrome.storage?.local) {
         chrome.storage.local.remove('token');
     }
+    else if (typeof browser !== "undefined" && browser.storage?.local) {
+        browser.storage.local.remove('token');
+    }
     isAuthenticated.value = false;
   } finally {
     isInitialized.value = true;
@@ -105,6 +120,9 @@ const handleLogin = async (credentials: { email: string; pass: string }) => {
       localStorage.setItem('token', accessToken);
       if (typeof chrome !== 'undefined' && chrome.storage?.local) {
         await chrome.storage.local.set({ token: accessToken });
+      }
+      else if (typeof browser !== 'undefined' && browser.storage?.local) {
+        await browser.storage.local.set({ token: accessToken });
       }
       router.push('/dashboard');
       

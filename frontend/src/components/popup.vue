@@ -66,10 +66,14 @@ const handleCopy = async (text: string, id: number) => {
 };
 
 const openDashboard = () => {
-  const url = "http://localhost:5173";
+  const url = "https://www.prompt-vault.dev/dashboard";
   if (typeof chrome !== "undefined" && chrome.tabs) {
     chrome.tabs.create({ url });
-  } else {
+  }
+  else if (typeof browser !== "undefined" && browser.tabs) {
+    browser.tabs.create({ url });
+  }
+   else {
     window.open(url, '_blank');
   }
 };

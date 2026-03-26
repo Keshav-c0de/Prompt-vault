@@ -6,3 +6,10 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+import type { Browser } from 'web-ext-types';
+
+declare global {
+  const browser: typeof chrome; 
+}
+export {};

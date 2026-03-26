@@ -5,7 +5,14 @@
     "description": "One-click access to your favorite AI prompts.",
     "action": {
       "default_popup": "popup.html"
+      
     },
     "permissions": ["storage", "clipboardWrite"],
-    "host_permissions": ["http://127.0.0.1:8000/*"]
-  }
+    "host_permissions": ["http://127.0.0.1:8000/*"],
+
+    "browser_specific_settings": {
+    "gecko": {
+      "id": "prompt-vault@prompt-vault.dev",
+      "strict_min_version": "109.0" }
+    }
+  }    
