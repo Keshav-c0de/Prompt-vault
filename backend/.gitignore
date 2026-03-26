@@ -10,5 +10,4 @@ wheels/
 .venv
 
 # env files containing sensitive information
-
 .env

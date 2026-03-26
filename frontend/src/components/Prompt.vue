@@ -19,7 +19,6 @@
   const expand = ref(new Set())
   const adding = ref(false)
 
-
   onMounted(() => {
     promptStore.loadPrompts()
     auth.fetchUser()
@@ -30,8 +29,8 @@
       expand.value.delete(p)
     } else {
       expand.value.add(p)
-    }
-}
+    }}
+
   const copy= async (text: string, id:number) => {
     try{
     const success = await promptStore.copyPrompt(text)
@@ -230,11 +229,11 @@ const clear = () => {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #1e293b; /* slate-800 */
+  background: #1e293b;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6; /* blue-500 */
+  background: #3b82f6;
 }
 </style>
