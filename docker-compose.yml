@@ -6,8 +6,6 @@ services:
 
     env_file:
       - ./backend/.env 
-    ports:
-      - "8000:8000"
 
   frontend:    
     build:
@@ -15,5 +13,5 @@ services:
       dockerfile: frontend.Dockerfile
 
     ports:
-      - "8080:80" 
+      - "80:80"   # Map port 80 of the container to port 80 on the host machine
       
