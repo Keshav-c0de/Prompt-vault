@@ -13,5 +13,9 @@ services:
       dockerfile: frontend.Dockerfile
 
     ports:
-      - "80:80"   # Map port 80 of the container to port 80 on the host machine
+      - "80:80"
+      - "443:443"   # Map port 80 of the container to port 80 on the host machine
+
+    volumes:
+    - /etc/letsencrypt:/etc/letsencrypt:ro  
       
