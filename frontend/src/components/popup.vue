@@ -36,8 +36,11 @@ const handleLogin = async () => {
         if (success) {
           await promptStore.loadPrompts();
         }
+        else {
+            error.value = "Access Denied: Invalid email or password.";
+        }
     } catch (err) {
-        error.value = "Access Denied: Invalid email or password.";
+        error.value = "something went wrong. Please try again.";
     } finally {
         isLoading.value = false;
     }

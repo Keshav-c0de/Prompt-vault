@@ -28,7 +28,7 @@ const handleRegister = async () => {
         formData.delete("name");
         
         await auth.login(formData);
-        router.push("/Prompt"); 
+        router.push("/Dashboard"); 
     }
     catch (err: any) {
         error.value = err.response?.data?.detail || "Registration failed. Try a different email.";

@@ -40,7 +40,8 @@ async function login(formData: FormData): Promise<boolean> {
     isAuthenticated.value = true;
     await fetchUser(); 
     return true;
-  } catch (error) {
+  } 
+  catch (error) {
     console.error("Login Error:", error);
     localStorage.removeItem('token');
     isAuthenticated.value = false; 

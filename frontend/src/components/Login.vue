@@ -50,9 +50,13 @@ const handleLogin = async () => {
             isOpen.value = false;
             router.push('/dashboard');
         }
-    } catch (err) {
-        error.value = "Access Denied: Invalid email or password.";
-    } finally {
+        else {
+            error.value = "Access Denied: Invalid email or password.";
+        }
+    } 
+    catch (err) 
+    { error.value= "somtin went wrong. Please try again later."} 
+    finally {
         isLoading.value = false;
     }
 };
@@ -106,8 +110,8 @@ const copySample = (text: string) => {
             Add to Browser
           </button>
           
-          <button @click="openModal('login')" class="w-full sm:w-auto bg-slate-900 border border-slate-800 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all">
-            ✨ Get Started Free
+          <button @click="openModal('register')" class="w-full sm:w-auto bg-slate-900 border border-slate-800 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all">
+            ✨ Get Started For Free
           </button>
         </div>
       </div>

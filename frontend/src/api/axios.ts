@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://www.prompt-vault.dev/api",
+  baseURL: 'http://localhost:8000',
+  //"https://www.prompt-vault.dev/api",
 });
 
 interface TokenData {
