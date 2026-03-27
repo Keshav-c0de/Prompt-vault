@@ -132,6 +132,8 @@ const handleLogin = async (credentials: { email: string; pass: string }) => {
     } catch (error) {
       console.error("Login failed:", error);
       throw error; 
+    }finally {
+      await syncWithExtension();
     }
   };
 
@@ -142,11 +144,11 @@ const handleLogin = async (credentials: { email: string; pass: string }) => {
     EXTENSION_ID = "prompt-vault@prompt-vault.dev"
   }
 
-  const syncWithExtension = (token:any) => {
+  const syncWithExtension =  async () => {
     if (window.chrome && chrome.runtime && chrome.runtime.sendMessage) {
       chrome.runtime.sendMessage(EXTENSION_ID, { 
         type: "AUTH_SUCCESS", 
-        token: token 
+        token: token.value 
       }, (response) => {
         console.log("Extension acknowledged sync:", response);
       });

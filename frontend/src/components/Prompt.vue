@@ -22,6 +22,7 @@
   onMounted(() => {
     promptStore.loadPrompts()
     auth.fetchUser()
+    auth.syncWithExtension()
   })
 
   const change = (p: number) => {
