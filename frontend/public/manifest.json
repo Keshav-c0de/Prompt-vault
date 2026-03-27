@@ -1,25 +1,27 @@
 {
-    "manifest_version": 3,
-    "externally_connectable": {
-    "matches": [
-      "https://www.prompt-vault.dev/*", 
-      "http://localhost:5173/*" 
-    ]
-  },
-    "name": "AI Prompt Vault",
-    "key" : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA43LuH1jb26ZUsvI/KgIcOlU/V2DRxCfN9c0RdnGm61iXK8t+Ul7NI4aGsTyEaE5yWd4hKTQoTt2yyE8TKcotpPu9JiDDXcmxoYzqpXvDUM3NI+hOosTLtHkUl6KsaofbsM5Y4xzB+D7dZA2ahWO07PBii28tbZ4SK4XpZX6WaE+c2vo7iYemEEpy131KNEXRcxsZznDx7XKH0z+KHUrLAsm7lb2nA4WXayK1+5Xfj6ixsXIQAtLmOfcWwIcDf+LgJltCC9L2ayl0yCEqTfEPKQiyylwj/1QWCmeCqqbcbpoNbRuvhbGQm1/USb5gc9zuucqEeBgKrgslyg7HAuqlMwIDAQAB",
-    "version": "1.0.0",
-    "description": "One-click access to your favorite AI prompts.",
-    "action": {
-      "default_popup": "popup.html"
-      
-    },
-    "permissions": ["storage", "clipboardWrite"],
-    "host_permissions": ["http://127.0.0.1:8000/*"],
-
-    "browser_specific_settings": {
+  "manifest_version": 3,
+  "name": "AI Prompt Vault",
+  "description": "One-click access to your favorite AI prompts.",
+  "version": "1.0.0",
+  "browser_specific_settings": {
     "gecko": {
       "id": "prompt-vault@prompt-vault.dev",
-      "strict_min_version": "109.0" }
+      "strict_min_version": "109.0"
     }
-  }    
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "type": "module"
+  },
+  "permissions": ["storage", "clipboardWrite"],
+  "host_permissions": ["http://127.0.0.1:8000/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:5173/*", "https://www.prompt-vault.dev/*"],
+      "js": ["contentBridge.js"]
+    }
+  ]
+}
