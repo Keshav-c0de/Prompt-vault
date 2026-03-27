@@ -3,12 +3,12 @@ import { useAuthStore } from '@/stores/auth';
 import { onMounted, ref } from 'vue';
 import { RouterView } from 'vue-router';
 const auth =useAuthStore()
-onMounted(async () => {
-  if (!auth.isInitialized) {
-    await auth.checkAuth();
-  }
+  onMounted(async () => {
+    if (!auth.isInitialized) {
+      await auth.checkAuth();
+    }
+    
 });
-
 
 
 </script>

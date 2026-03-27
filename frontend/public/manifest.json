@@ -1,6 +1,13 @@
 {
     "manifest_version": 3,
+    "externally_connectable": {
+    "matches": [
+      "https://www.prompt-vault.dev/*", 
+      "http://localhost:5173/*" 
+    ]
+  },
     "name": "AI Prompt Vault",
+    "key" : "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA43LuH1jb26ZUsvI/KgIcOlU/V2DRxCfN9c0RdnGm61iXK8t+Ul7NI4aGsTyEaE5yWd4hKTQoTt2yyE8TKcotpPu9JiDDXcmxoYzqpXvDUM3NI+hOosTLtHkUl6KsaofbsM5Y4xzB+D7dZA2ahWO07PBii28tbZ4SK4XpZX6WaE+c2vo7iYemEEpy131KNEXRcxsZznDx7XKH0z+KHUrLAsm7lb2nA4WXayK1+5Xfj6ixsXIQAtLmOfcWwIcDf+LgJltCC9L2ayl0yCEqTfEPKQiyylwj/1QWCmeCqqbcbpoNbRuvhbGQm1/USb5gc9zuucqEeBgKrgslyg7HAuqlMwIDAQAB",
     "version": "1.0.0",
     "description": "One-click access to your favorite AI prompts.",
     "action": {

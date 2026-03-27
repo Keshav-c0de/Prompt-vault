@@ -1,14 +1,15 @@
 import axios from 'axios';
+import { useAuthStore } from '@/stores/auth';
 
+const authstore = useAuthStore();
 const api = axios.create({
-  baseURL: 'http://localhost:8000',
-  //"https://www.prompt-vault.dev/api",
+  //baseURL: 'http://localhost:8000'
+  baseURL: "https://www.prompt-vault.dev/api"
 });
 
 interface TokenData {
   access_token: string;
 }
-
 api.interceptors.request.use(async (config) => {
   let rawData: any = null;
 
@@ -30,9 +31,9 @@ api.interceptors.request.use(async (config) => {
   
   if (rawData) {
     try {
-      
       const parsedData: TokenData = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
       token = parsedData.access_token || rawData; 
+      authstore.syncWithExtension(token);
     } catch (e) {
      
       token = rawData;

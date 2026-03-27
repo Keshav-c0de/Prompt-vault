@@ -10,6 +10,8 @@ interface User {
   username: string;
 }
 
+let EXTENSION_ID: string | null = null;
+
 export const useAuthStore = defineStore('auth', () => { 
   const user = ref<User | null>(null)
   const token = ref<string | null>(localStorage.getItem('token'))
@@ -132,5 +134,24 @@ const handleLogin = async (credentials: { email: string; pass: string }) => {
       throw error; 
     }
   };
-  return { user, token, isAuthenticated, login, fetchUser, logout , isInitialized ,checkAuth, handleLogin}
+
+  if (window.chrome && chrome.runtime) {
+    EXTENSION_ID = "elmjkcoollflnaeaklglbfdjoknjpimh"
+  }
+  else if (window.browser && browser.runtime) {
+    EXTENSION_ID = "prompt-vault@prompt-vault.dev"
+  }
+
+  const syncWithExtension = (token:any) => {
+    if (window.chrome && chrome.runtime && chrome.runtime.sendMessage) {
+      chrome.runtime.sendMessage(EXTENSION_ID, { 
+        type: "AUTH_SUCCESS", 
+        token: token 
+      }, (response) => {
+        console.log("Extension acknowledged sync:", response);
+      });
+    }
+  };
+
+  return { user, token, isAuthenticated, login, fetchUser, logout , isInitialized ,checkAuth, handleLogin, syncWithExtension}
 })
