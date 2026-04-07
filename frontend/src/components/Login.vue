@@ -78,6 +78,7 @@ const copySample = (text: string) => {
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
         <a href="https://github.com/Keshav-c0de/Prompt-vault" target="_blank" class="hover:text-white transition-colors">GitHub</a>
         <a href="mailto:kingkeshav06@gmail.com" class="hover:text-white transition-colors">Support</a>
+        <a href="./PrivacyPolicy" class="hover:text-white transition-colors">Privacy</a>
         <button @click="openModal('login')" class="bg-blue-600/10 text-blue-400 border border-blue-500/20 px-5 py-2 rounded-xl hover:bg-blue-600 hover:text-white transition-all">
           Login to Vault
         </button>

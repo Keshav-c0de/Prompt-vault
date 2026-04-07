@@ -16,14 +16,20 @@ export default defineConfig({
   },
   
   server: {
-    open: '/index.html', // Opens the website by default
+    open: '/index.html', 
   },
   build: {
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'), 
-        popup: resolve(__dirname, 'popup.html'), 
+        popup: resolve(__dirname, 'popup.html'),
+        background: resolve(__dirname, 'src/background.ts')
       },
+      output: {
+        entryFileNames: `[name].js`,
+        chunkFileNames: `[name].js`,
+        assetFileNames: `[name].[ext]`}
+      }
     },
   },
-})
+)

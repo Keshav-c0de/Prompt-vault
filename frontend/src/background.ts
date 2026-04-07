@@ -1,6 +1,6 @@
 
 
-if (window.chrome && chrome.runtime && chrome.runtime.onMessage) {
+if (typeof chrome !== 'undefined' && chrome.runtime?.onMessage) {
     chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
         if (message.type === 'LOGOUT') {
             chrome.storage.local.remove('token');
@@ -13,7 +13,7 @@ if (window.chrome && chrome.runtime && chrome.runtime.onMessage) {
             }
         });
         }
-else if (window.browser && browser.runtime && browser.runtime.onMessage) {
+else if (typeof browser !== 'undefined' && browser.runtime?.onMessage) {
     browser.runtime.onMessageExternal.addListener((message:any, sender:any, sendResponse:any) => {
         if (message.type === 'LOGOUT') {
             browser.storage.local.remove('token');

@@ -19,10 +19,23 @@
   const expand = ref(new Set())
   const adding = ref(false)
 
-  onMounted(() => {
-    promptStore.loadPrompts()
-    auth.fetchUser()
-    auth.syncWithExtension()
+  const isLoading = ref(true)
+  onMounted(async () => {
+    isLoading.value = true 
+    
+    try {
+      await Promise.all([
+        auth.fetchUser(),
+        promptStore.loadPrompts()
+      ])
+      
+      auth.syncWithExtension() 
+      
+    } catch (error) {
+      console.error("Failed to load initial data:", error)
+    } finally {
+      isLoading.value = false 
+    }
   })
 
   const change = (p: number) => {
@@ -118,6 +131,10 @@ const clear = () => {
     </header>
 
     <main class="flex-1  p-6">
+        <div v-if="isLoading" class="flex flex-col items-center justify-center py-10">
+        <div class="animate-spin h-6 w-6 border-2 border-blue-600 border-t-transparent rounded-full mb-2"></div>
+        <p class="text-xs text-gray-500">Syncing...</p>
+      </div>
       <section>
         <h3 class="block text-2xl font-black uppercase tracking-tight text-slate-500 mb-2">Welcome ,  {{ auth.user?.name }}</h3>
         <hr class="my-4 h-px border-t-0 bg-slate-400" />

@@ -32,6 +32,11 @@ const router = createRouter({
         {
           path: '/login',
           redirect: '/welcome'
+        },
+        {
+          path: '/privacypolicy',
+          name: 'privacyPolicy',
+          component: () => import('../components/PrivacyPolicy.vue')
         }
 
     ]
