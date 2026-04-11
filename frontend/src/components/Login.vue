@@ -28,11 +28,9 @@ const openregister = () => {
 
 const redirect = () => {
   if (/Chrome/.test(navigator.userAgent)) {
-    window.open('https://chromewebstore.google.com/category/extensions', '_blank');
-} else if (/Firefox/.test(navigator.userAgent)) {
-    window.open('https://addons.mozilla.org/en-US/firefox/', '_blank');
+    window.open('https://chromewebstore.google.com/detail/amgeammeknkpnpdcnlnljjbkmdebeemh?utm_source=item-share-cb', '_blank');
 } else {
-    alert('extension is only available for Chrome and Firefox.');
+    alert('extension is only available for Chrome');
 };
 }
 
@@ -107,7 +105,6 @@ const copySample = (text: string) => {
         <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
           <button class="w-full sm:w-auto flex items-center justify-center gap-3 bg-white text-slate-950 px-10 py-5 rounded-2xl font-black text-lg hover:bg-slate-200 transition-all shadow-2xl shadow-white/5" @click="redirect" >
             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" class="w-6 h-6" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Mozilla_Firefox_logo_2004.svg" class="w-6 h-6" />
             Add to Browser
           </button>
           
